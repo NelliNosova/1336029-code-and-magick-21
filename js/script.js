@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable no-unused-vars */
 
 let fireballSize = 22;
 let wizardSpeed = 3;
@@ -13,8 +14,9 @@ const getFireballSpeed = (isMovingLeft) => {
   return 5; */
   return isMovingLeft ? 2 : 5;
 };
+
 const getWizardHeight = () => {
-  return wizardWidth*1.337;
+  return wizardWidth * 1.337;
 };
 
 const getWizardX = (gameFieldWidth) => {
@@ -24,4 +26,3 @@ const getWizardX = (gameFieldWidth) => {
 const getWizardY = (gameFieldHeight) => {
   return gameFieldHeight / 3;
 };
-
