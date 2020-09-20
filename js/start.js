@@ -1,7 +1,13 @@
 'use strict';
 
-var COLD_WIDTH = 300;
-var COLD_HEIGHT = 250;
+var COLD_WIDTH = 420;
+var COLD_HEIGHT = 270;
+var COLD_X = 100;
+var COLD_Y = 10;
+var COLD_SHADOW_GAP = 10;
+
+var CONGRATULATIONS_X = 180;
+var CONGRATULATIONS_Y = 10;
 
 var PLAYER_NAME_X = 125;
 var PLAYER_NAME_Y = 235;
@@ -12,19 +18,11 @@ var PLAYER_BAR_WIDTH = 40;
 var PLAYER_BAR_HEIGHT = 150;
 
 var GAP = PLAYER_BAR_WIDTH + 50;
-
-// var playerIndex = 0;
-// var playerName = 'Вы';
-
-
-
+var TIME_GAP = 15;
 
 var renderCould = function(ctx, x, y, color) {
   ctx.fillStyle = color;
-
   ctx.fillRect(x, y, COLD_WIDTH, COLD_HEIGHT);
-  ctx.fillRect(x - 120, y + 30, COLD_WIDTH + 200, COLD_HEIGHT - 50);
-  ctx.fillRect(x - 180, y + 60, COLD_WIDTH * 2, COLD_HEIGHT - 110);
 };
 
 var getMaxElement = function(arr) {
@@ -37,12 +35,19 @@ var getMaxElement = function(arr) {
   return maxElement;
 };
 
+var getSaturate = function() {
+  return 'hsl(' + 223 +', ' + Math.round(Math.random()*100) + '%' + ', 50%)';
+};
+
 window.renderStatistics = function(ctx, players, times) {
-  renderCould(ctx, 230, 30, 'rgba(0, 0, 0, 0.3)', 300, 250);
-  renderCould(ctx, 220, 20, '#fff', 300, 250);
+  renderCould(ctx, COLD_X, COLD_Y, 'rgba(0, 0, 0, 0.3)');
+  renderCould(ctx, COLD_X - COLD_SHADOW_GAP, COLD_Y - COLD_SHADOW_GAP, '#fff');
 
-
-
+  ctx.fillStyle = '#000';
+  ctx.font = '16px PT Mono';
+  ctx.textBaseline = 'hanging';
+  ctx.fillText('Ура вы победили!', CONGRATULATIONS_X, CONGRATULATIONS_Y);
+  ctx.fillText('Список результатов:', CONGRATULATIONS_X, CONGRATULATIONS_Y + 20);
 
   var maxTime = getMaxElement(times);
 
@@ -55,14 +60,23 @@ window.renderStatistics = function(ctx, players, times) {
     ctx.fillText(
       Math.round(times[i]),
       PLAYER_NAME_X + GAP * i,
-      playerBarY - 7
+      playerBarY - TIME_GAP
     );
+
+    if (players[i] !== 'Вы') {
+      ctx.fillStyle = getSaturate();
+    } else {
+      ctx.fillStyle = '#f00';
+    }
+
     ctx.fillRect(
       PLAYER_BAR_X + GAP * i,
       playerBarY,
       PLAYER_BAR_WIDTH,
       playerBarHeight
     );
+
+    ctx.fillStyle = '#000';
     ctx.fillText(
       players[i],
       PLAYER_NAME_X + GAP * i,
