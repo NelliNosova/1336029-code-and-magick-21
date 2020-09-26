@@ -44,7 +44,7 @@ var getMaxElement = function (arr) {
   return maxElement;
 };
 
-var getSaturate = function (myName) {
+var getColumnColor = function (myName) {
   return (myName === 'Вы') ? MY_COLUMN_COLOR : 'hsl(' + 223 + ', ' + Math.round(Math.random() * 100) + '%' + ', 50%)';
 };
 
@@ -69,7 +69,7 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(Math.round(times[i]), playerBarX, playerBarY - TIME_GAP);
     ctx.fillText(players[i], playerBarX, PLAYER_NAME_Y);
 
-    ctx.fillStyle = getSaturate(players[i]);
+    ctx.fillStyle = getColumnColor(players[i]);
 
     ctx.fillRect(PLAYER_BAR_X + GAP * i, playerBarY, PLAYER_BAR_WIDTH, playerBarHeight);
   }
