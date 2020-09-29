@@ -50,11 +50,15 @@ var similarPlayerTemplate = document.querySelector('#similar-wizard-template')
 
 var getShuffleArray = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
+    var temp;
     var j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
   }
   return array;
 };
+
 
 var shuffledPlayerNames = getShuffleArray(PLAYER_NAMES);
 var shuffledPlayerSecondNames = getShuffleArray(PLAYER_SECOND_NAMES);
