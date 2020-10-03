@@ -49,14 +49,15 @@ var similarPlayerTemplate = document.querySelector('#similar-wizard-template')
     .content.querySelector('.setup-similar-item');
 
 var getShuffleArray = function (array) {
-  for (var i = array.length - 1; i > 0; i--) {
+  var shuffledArray = array.slice();
+  for (var i = shuffledArray.length - 1; i > 0; i--) {
     var temp;
     var j = Math.floor(Math.random() * (i + 1));
-    temp = array[j];
-    array[j] = array[i];
-    array[i] = temp;
+    temp = shuffledArray[j];
+    shuffledArray[j] = shuffledArray[i];
+    shuffledArray[i] = temp;
   }
-  return array;
+  return shuffledArray;
 };
 
 
@@ -64,6 +65,7 @@ var shuffledPlayerNames = getShuffleArray(PLAYER_NAMES);
 var shuffledPlayerSecondNames = getShuffleArray(PLAYER_SECOND_NAMES);
 var shuffledPlayerCoatColors = getShuffleArray(PLAYER_COAT_COLORS);
 var shuffledPlayerEyesColor = getShuffleArray(PLAYER_EYES_COLORS);
+
 
 var wizards = [];
 var getWizards = function (number) {
