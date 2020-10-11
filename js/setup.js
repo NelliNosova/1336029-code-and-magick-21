@@ -31,7 +31,6 @@ var PLAYER_COAT_COLORS = [
   'rgb(0, 0, 0)',
 ];
 
-
 var PLAYER_EYES_COLORS = [
   'black',
   'red',
@@ -40,13 +39,113 @@ var PLAYER_EYES_COLORS = [
   'green'
 ];
 
+var PLAYER_FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 var PLAYER_NUMBER = 4;
 
-var setupBox = document.querySelector('.setup');
-var setupBoxSimilar = document.querySelector('.setup-similar');
+var MIN_NAME_LENGTH = 2;
+var MAX_NAME_LENGTH = 25;
+
+var MIN_ARRAY_INDEX = 0;
+
+var setup = document.querySelector('.setup');
+// var setupBoxSimilar = document.querySelector('.setup-similar');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarPlayerTemplate = document.querySelector('#similar-wizard-template')
     .content.querySelector('.setup-similar-item');
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+
+var userNameInput = document.querySelector('.setup-user-name');
+var wizardCoatColor = document.querySelector('.setup-wizard .wizard-coat');
+var wizardEyesColor = document.querySelector('.setup-wizard .wizard-eyes');
+var wizardFireballColor = document.querySelector('.setup-fireball-wrap');
+
+
+var onSetupPressEsc = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    setup.classList.add('hidden');
+  }
+};
+
+var openSetup = function () {
+  setup.classList.remove('hidden');
+
+  document.addEventListener('keydown', onSetupPressEsc);
+};
+
+var closeSetup = function () {
+  setup.classList.add('hidden');
+
+  document.removeEventListener('keydown', onSetupPressEsc);
+};
+
+var getSetupOpen = function () {
+  setupOpen.addEventListener('click', function () {
+    openSetup();
+  });
+
+  setupOpen.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      openSetup();
+    }
+  });
+};
+
+var getSetupClose = function () {
+  setupClose.addEventListener('click', function () {
+    closeSetup();
+  });
+
+  setupClose.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      closeSetup();
+    }
+  });
+};
+
+var getValidityPlayerName = function () {
+  userNameInput.addEventListener('input', function () {
+    var valueLength = userNameInput.value.length;
+    if (valueLength < MIN_NAME_LENGTH) {
+      userNameInput.setCustomValidity('Ещё ' + (MIN_NAME_LENGTH - valueLength) + ' симв.');
+    } else if (valueLength > MAX_NAME_LENGTH) {
+      userNameInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_NAME_LENGTH) + ' симв.');
+    } else {
+      userNameInput.setCustomValidity('');
+    }
+
+    userNameInput.reportValidity();
+  });
+};
+
+var getRandomIndex = function (array) {
+  return Math.floor(Math.random() * (array.length - MIN_ARRAY_INDEX) + MIN_ARRAY_INDEX);
+};
+
+var getFillColor = function (elem, array) {
+  elem.addEventListener('click', function () {
+    var indexColor = getRandomIndex(array);
+    elem.style.fill = array[indexColor];
+    elem.value = array[indexColor];
+  });
+};
+
+var getBackgroundColor = function (elem, array) {
+  elem.addEventListener('click', function () {
+    var indexColor = getRandomIndex(array);
+    elem.style.backgroundColor = array[indexColor];
+    elem.value = array[indexColor];
+  });
+};
 
 var getShuffleArray = function (array) {
   var shuffledArray = array.slice();
@@ -59,7 +158,6 @@ var getShuffleArray = function (array) {
   }
   return shuffledArray;
 };
-
 
 var shuffledPlayerNames = getShuffleArray(PLAYER_NAMES);
 var shuffledPlayerSecondNames = getShuffleArray(PLAYER_SECOND_NAMES);
@@ -83,10 +181,7 @@ var getWizards = function (number) {
 
 getWizards(PLAYER_NUMBER);
 
-setupBox.classList.remove('hidden');
-
-setupBoxSimilar.classList.remove('hidden');
-
+// setupBoxSimilar.classList.remove('hidden');
 
 var renderWizard = function (wizard) {
   var wizardElement = similarPlayerTemplate.cloneNode(true);
@@ -111,4 +206,9 @@ var getSimilarWizards = function (number) {
 };
 
 getSimilarWizards(PLAYER_NUMBER);
-
+getSetupOpen();
+getSetupClose();
+getValidityPlayerName();
+getFillColor(wizardCoatColor, PLAYER_COAT_COLORS);
+getFillColor(wizardEyesColor, PLAYER_EYES_COLORS);
+getBackgroundColor(wizardFireballColor, PLAYER_FIREBALL_COLORS);
