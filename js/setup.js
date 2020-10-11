@@ -131,7 +131,7 @@ var getRandomIndex = function (array) {
   return Math.floor(Math.random() * (array.length - MIN_ARRAY_INDEX) + MIN_ARRAY_INDEX);
 };
 
-var getFillColor = function(elem, array) {
+var getFillColor = function (elem, array) {
   elem.addEventListener('click', function () {
     var indexColor = getRandomIndex(array);
     elem.style.fill = array[indexColor];
@@ -139,7 +139,7 @@ var getFillColor = function(elem, array) {
   });
 };
 
-var getBackgroundColor = function(elem, array) {
+var getBackgroundColor = function (elem, array) {
   elem.addEventListener('click', function () {
     var indexColor = getRandomIndex(array);
     elem.style.backgroundColor = array[indexColor];
